@@ -3,36 +3,29 @@ import SwiftUI
 struct HomeView: View {
     var body: some View {
         NavigationView {
-            VStack(spacing: 24) {
+            VStack(spacing: 32) {
                 Spacer()
-                VStack(spacing: 8) {
-                    Image(systemName: "house.fill")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 80, height: 80)
-                        .foregroundColor(.white)
 
-                    Text("Welcome to Yuki")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundStyle(.white)
-                }
-                
-                Text("Your next favorite app experience starts here.")
-                    .multilineTextAlignment(.center)
-                    .font(.headline)
-                    .foregroundStyle(.white.opacity(0.9))
-                    .padding(.horizontal)
+                Image(systemName: "house.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 80, height: 80)
+                    .foregroundColor(.white)
+
+                Text("Welcome to Yuki")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
+                    .foregroundColor(.white)
 
                 Spacer()
-                VStack(spacing: 12) {
+                VStack(spacing: 16) {
                     NavigationLink(destination: LoginView()) {
                         Text("Login")
                             .font(.headline)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.brand)
-                            .foregroundColor(.white)
+                            .background(Color.white)
+                            .foregroundColor(Color.brand)
                             .cornerRadius(12)
                     }
                     NavigationLink(destination: RegisterView()) {
@@ -49,8 +42,8 @@ struct HomeView: View {
                             .font(.headline)
                             .padding()
                             .frame(maxWidth: .infinity)
-                            .background(Color.brand)
-                            .foregroundColor(.white)
+                            .background(Color.white)
+                            .foregroundColor(Color.brand)
                             .cornerRadius(12)
                     }
                 }
@@ -58,14 +51,7 @@ struct HomeView: View {
                 .padding(.bottom, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(
-                LinearGradient(
-                    gradient: Gradient(colors: [.blue, .purple]),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
-                .ignoresSafeArea()
-            )
+            .background(Color.brand.ignoresSafeArea())
             .navigationBarHidden(true)
         }
     }
