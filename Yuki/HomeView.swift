@@ -25,16 +25,27 @@ struct HomeView: View {
                     .padding(.horizontal)
 
                 Spacer()
-                Button(action: {}) {
-                    Text("Get Started")
-                        .font(.headline)
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.white)
-                        .foregroundColor(.blue)
-                        .cornerRadius(12)
-                        .padding(.horizontal)
+                VStack(spacing: 12) {
+                    NavigationLink(destination: LoginView()) {
+                        Text("Login")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.brand)
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                    NavigationLink(destination: RegisterView()) {
+                        Text("Register")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white)
+                            .foregroundColor(Color.brand)
+                            .cornerRadius(12)
+                    }
                 }
+                .padding(.horizontal)
                 .padding(.bottom, 40)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
