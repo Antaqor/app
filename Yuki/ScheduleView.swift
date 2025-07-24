@@ -12,6 +12,7 @@ struct ScheduleView: View {
 
     @State private var selectedDay: Date = Calendar.current.startOfDay(for: Date())
     @State private var selectedTime: Date?
+    @State private var showConfirmation: Bool = false
 
     private var columns: [GridItem] { Array(repeating: .init(.flexible()), count: 3) }
 
@@ -31,6 +32,10 @@ struct ScheduleView: View {
         let calendar = Calendar.current
         guard let start = calendar.date(bySettingHour: 9, minute: 0, second: 0, of: day) else { return [] }
         return (0...24).compactMap { calendar.date(byAdding: .minute, value: $0 * 30, to: start) }
+    }
+
+    private func confirmSelection() {
+        showConfirmation = true
     }
 
     var body: some View {
@@ -62,7 +67,10 @@ struct ScheduleView: View {
                 // Time slot selection
                 LazyVGrid(columns: columns, spacing: 12) {
                     ForEach(timeSlots(for: selectedDay), id: \.self) { slot in
-                        Button(action: { selectedTime = slot }) {
+                        Button(action: {
+                            selectedTime = slot
+                            confirmSelection()
+                        }) {
                             Text(timeFormatter.string(from: slot))
                                 .frame(maxWidth: .infinity)
                                 .padding(8)
@@ -79,6 +87,14 @@ struct ScheduleView: View {
         }
         .navigationTitle("Scheduling")
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $showConfirmation) {
+            let time = selectedTime ?? Date()
+            return Alert(
+                title: Text("Time Selected"),
+                message: Text("You chose \(dayFormatter.string(from: selectedDay)) at \(timeFormatter.string(from: time))"),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
 }
 
