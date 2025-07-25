@@ -4,6 +4,9 @@ struct RegisterView: View {
     @State private var name: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var alertMessage: String = ""
+    @State private var showAlert = false
+    @EnvironmentObject var auth: AuthViewModel
     
     var body: some View {
         VStack(spacing: 20) {
@@ -21,7 +24,16 @@ struct RegisterView: View {
             SecureField("Password", text: $password)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
-            Button(action: {}) {
+            Button(action: {
+                auth.register(name: name, email: email, password: password) { error in
+                    if let error = error {
+                        alertMessage = error.localizedDescription
+                    } else {
+                        alertMessage = "Registered successfully"
+                    }
+                    showAlert = true
+                }
+            }) {
                 Text("Register")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -33,11 +45,15 @@ struct RegisterView: View {
             Spacer()
         }
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage))
+        }
     }
 }
 
 #Preview {
     NavigationView {
         RegisterView()
+            .environmentObject(AuthViewModel())
     }
 }

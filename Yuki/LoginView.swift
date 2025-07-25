@@ -3,6 +3,9 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
+    @State private var alertMessage: String = ""
+    @State private var showAlert = false
+    @EnvironmentObject var auth: AuthViewModel
     
     var body: some View {
         VStack(spacing: 20) {
@@ -17,7 +20,16 @@ struct LoginView: View {
             SecureField("Password", text: $password)
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal)
-            Button(action: {}) {
+            Button(action: {
+                auth.login(email: email, password: password) { error in
+                    if let error = error {
+                        alertMessage = error.localizedDescription
+                    } else {
+                        alertMessage = "Logged in successfully"
+                    }
+                    showAlert = true
+                }
+            }) {
                 Text("Login")
                     .frame(maxWidth: .infinity)
                     .padding()
@@ -29,11 +41,15 @@ struct LoginView: View {
             Spacer()
         }
         .navigationBarTitleDisplayMode(.inline)
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text(alertMessage))
+        }
     }
 }
 
 #Preview {
     NavigationView {
         LoginView()
+            .environmentObject(AuthViewModel())
     }
 }
