@@ -38,6 +38,27 @@ struct LoginView: View {
                     .cornerRadius(10)
                     .padding(.horizontal)
             }
+            Button(action: {
+                if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                   let root = scene.windows.first?.rootViewController {
+                    auth.loginWithGoogle(presenting: root) { error in
+                        if let error = error {
+                            alertMessage = error.localizedDescription
+                        } else {
+                            alertMessage = "Logged in with Google"
+                        }
+                        showAlert = true
+                    }
+                }
+            }) {
+                Text("Sign in with Google")
+                    .frame(maxWidth: .infinity)
+                    .padding()
+                    .background(Color.brand)
+                    .foregroundColor(.white)
+                    .cornerRadius(10)
+                    .padding(.horizontal)
+            }
             Spacer()
         }
         .navigationBarTitleDisplayMode(.inline)

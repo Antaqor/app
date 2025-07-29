@@ -55,6 +55,15 @@ struct HomeView: View {
                             .foregroundColor(Color.brand)
                             .cornerRadius(12)
                     }
+                    NavigationLink(destination: ProfileView()) {
+                        Text("Profile")
+                            .font(.headline)
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.white)
+                            .foregroundColor(Color.brand)
+                            .cornerRadius(12)
+                    }
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 40)
